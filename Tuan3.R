@@ -55,5 +55,26 @@ replace(time, time == 24, 22)
 # c) Có bao nhiêu ngày bạn đi làm mất nhiều 
 # hơn 20 phút. Tính tỉ lệ phần trăm số
 # ngày bạn đi làm mất ít hơn hoặc bằng 17 phút.
-time_count <- table(time)
-time_count
+count_20 = 0
+count_17 = 0
+for (time_a_day in time) {
+  if (time_a_day > 20) {
+    count_20 <- count_20 + 1
+  }
+  if (time_a_day < 17) {
+    count_17 <- count_17 + 1
+  }
+}
+cat(count_20, "ngày đi làm hơn 20p")
+cat("Tỉ lệ ngày dưới 17 phút:", count_17/length(time)*100)
+
+bill <- c(46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, 48)
+sum(bill)
+count_more_40 = 0
+for (b in bill) {
+  if (b > 40) {
+    count_more_40 <- count_more_40 + 1
+  }
+}
+cat(count_more_40, "tháng phải trả hơn 40$")
+cat("Tỉ lệ phần trăm:", count_more_40/length(bill)*100)
