@@ -76,4 +76,4 @@ det(B)
 # 8) Tìm ma trận nghịch đảo của A.
 solve(A)
 # 9) Tích của hai ma trận A và B.
-A*B
+A %*% B
