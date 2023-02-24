@@ -41,3 +41,19 @@ solve(A)
 C <- solve(A) %*% B
 C
 
+# Giả sử rằng, thời gian đi làm của bạn 
+# trong vòng 2 tuần (10 ngày) được ghi lại
+#như sau (đơn vị: phút) 17 16 20 24 22 15 21 15 17 22
+# a) Nhập dữ liêu vào R và trả về kết quả các lệnh min, mean, max.
+time <- c(17, 16, 20, 24, 22, 15, 21, 15, 17, 22)
+min(time)
+mean(time)
+max(time)
+# b) Biết rằng giá trị 24 bị lỗi, nó phải là 18. 
+# Hãy đưa ra câu lệnh để sửa với R.
+replace(time, time == 24, 22)
+# c) Có bao nhiêu ngày bạn đi làm mất nhiều 
+# hơn 20 phút. Tính tỉ lệ phần trăm số
+# ngày bạn đi làm mất ít hơn hoặc bằng 17 phút.
+time_count <- table(time)
+time_count
