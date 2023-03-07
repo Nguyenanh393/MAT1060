@@ -1,0 +1,112 @@
+\-\--
+
+Môn học: Nhập môn phân tích dữ liệu MAT1060
+
+Giảng viên: Nguyễn Thị Phương Mai
+
+\-\--
+
+# Bài thực hành buổi 4
+
+***Bài 1.*** Số tiền chi tiêu của một sinh viên trong 1 năm, tương ứng từ tháng 1 đến tháng 12 được ghi lại như sau (đơn vị: nghìn đồng): $$4241\quad 4565\quad 4140\quad 3894\quad 5046\quad 3627\quad 5897\quad 3482\quad 3290\quad 3015\quad 4139\quad 4138$$
+
+Nhập dữ liệu vào R và viết hàm cho biết những tháng có số tiền chi tiêu lớn hơn tháng liền trước đó.
+
+```{r}
+chi = c(4241, 4565, 4140, 3894, 5046, 3627, 5897, 3482, 3290, 3015, 4139, 4138)
+y = c()
+for (i in 2 :(length(chi))) {
+  if(chi[i] > chi[i-1]) {
+    y = c(y, i)
+  }  
+}
+y
+```
+
+***Bài 2.*** Khi tham gia một hoạt động thể thao nào đó, bạn mong muốn biết được nhịp tim để tránh luyện tập quá sức. Công thức tính nhịp tim Karvonen là một phương pháp bạn có thể sử dụng để xác định nhịp tim. Hãy viết chương trình cho phép người dùng nhập vào số tuổi, và nhịp tim bình thường. Chương trình sẽ xác định nhịp tim dựa trên cường độ luyện tập của bạn từ $55\%$ đến $95\%$ năng lượng. Kết quả của chương trình là một bảng như trong ví dụ chạy chương trình. Công thức tính nhịp tim như sau: $$\text{Nhịp tim} = (((222-a)-x)r)+x.$$ Trong đó:
+
+-   $x$ : nhịp tim lúc không luyện tập.
+-   $a$ : tuổi.
+-   $r$ : cường độ luyện tập (tính theo $\%$).
+
+Cho biết nhịp tim người lúc bình thường trung bình là $65$ nhịp/phút. Hãy tính nhịp tim của những người có tuổi như sau: $22, 27, 31, 45, 53$. Với cường độ luyện tập lần lượt là $75\%$ và $90\%$.
+
+```{r}
+x = 65
+a = c(22, 27, 31, 45, 53)
+r = c(0.75, 0.9)
+y = c(0.75, 0.9)
+for (a_i in a){
+  for (r_i in r) {
+    rate = (((222 - a_i) - x) * r_i / 100) + x
+    y = c(y, rate)
+  }
+}
+y = matrix(y, ncol = 2, byrow = TRUE)
+a = c(0, 22, 27, 31, 45, 53)
+y = cbind(a, y)
+y
+```
+
+***Bài 3.*** Theo dõi ngẫu nhiên $370$ hộ ở Hà Nội được bảng số liệu về số điện tiêu thụ điện trong một tháng (đơn vị nghìn đồng) của các hộ gia đình như sau:
+
+|                          |       |       |       |       |       |       |       |
+|--------------------------|-------|-------|-------|-------|-------|-------|-------|
+| Số điện tiêu thụ ($x_i$) | $170$ | $180$ | $190$ | $200$ | $210$ | $220$ | $230$ |
+| Số hộ ($r_i$)            | $30$  | $40$  | $55$  | $75$  | $85$  | $50$  | $35$  |
+
+1.  Nhập từ bàn phím dữ liệu về số điện của $370$ hộ vào R.
+2.  Có ý kiến cho rằng: "Tỉ lệ người dân sử dụng điện lớn hơn $200$ số điện ở Hà Nội là cao hơn $p_0=0.4$. Để kiểm tra ý kiến trên có đúng không, ta đặt T được tính bằng công thức dưới đây được gọi là Test thống kê.
+
+$$T=\dfrac{f-p_0}{p_0(1-p_0)}.\sqrt{n}$$
+
+Ta nói ý kiến trên đúng nếu $T \leq 1.96$ và sai nếu ngược lại, với $n$ là cỡ mẫu (length), $m$ là số hộ dân sử dụng điện lớn hơn $200 (Kw/h)$ và $f=\frac{m}{n}$ . Hãy sử dụng câu lệnh R để kiểm tra ý kiến trên là đúng hay sai với dữ liệu có được.
+
+```{r}
+
+
+
+
+
+
+
+
+
+```
+
+***Bài 4.*** Thực hiện lần lượt các thao tác sau với R.
+
+1.  Sử dụng hàm ***sample*** sinh ra một bộ dữ liệu về thông tin của $300$ sinh viên: bao gồm điểm thường xuyên, điểm giữa kỳ, điểm cuối kỳ ( điểm thường xuyên hơn kém nhau $1$, điểm giữa kỳ và điểm cuối kỳ hơn kém nhau $0.5$).
+
+2.  Tính điểm tổng kết của $300$ sinh viên theo công thức\
+    $$\text{tổng= điểm thường xuyên}\times 0.2+\text{ điểm giữa kỳ }\times 0.2+\text{ điểm cuối kỳ }\times 0.6.$$
+
+3.  Sử dụng hàm ***cut*** để xếp loại điểm như sau: nếu tổng điểm lớn hơn hoặc bằng $9.0$ được xếp điểm $A+$, $8.5\leq$ điểm tổng $< 9$ được xếp điểm $A$, $8.0\leq$ điểm tổng $< 8.5$ được xếp điểm $B+$, $7.0\leq$ điểm tổng $<8.0$ được xếp điểm $B$, điểm tổng $< 7.0$ được xếp điểm $C$.
+
+    ```{r}
+
+
+
+    ```
+
+***Bài 5***. Cho dữ liệu về chất lượng rượu trong ảnh dưới đây:
+
+![](images/333232933_1014160529556247_1229032292563778920_n-01.png)
+
+a.  Trong dữ liệu về ***citric.acid***, để khắc phục lỗi kĩ thuật khi đo đạc ta sẽ cộng thêm một lượng là $0.01$ với những giá trị không lớn hơn $0.02$. Sử dụng R để viết một hàm để thực hiện thao tác đó.
+
+b.  Giả sử rằng rượu được đánh giá là tốt nếu hằng số $k > 8.3$, trong đó $$k=\dfrac{\text{quality}\times \text{alcohol}}{\text{sulphates}}.$$
+
+    Sử dụng hàm ***cut*** để phân loại chất lượng rượu từ dữ liệu đã cho *("Tốt", "Xấu")*.
+
+    ```{r}
+
+
+
+
+
+
+
+
+
+    ```
