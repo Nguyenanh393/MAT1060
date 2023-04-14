@@ -1,0 +1,114 @@
+---
+title: "bài tập"
+output: html_document
+date: "2023-03-30"
+---
+
+Dữ liệu dưới đây (dulieu2.csv) là doanh số bán hàng của một công ty. Thực hiện các thao tác sau với phần mềm R.
+
+1.  Nhập dữ liệu vào R và đặt tên nó là data
+
+    ```{r}
+    data = read.csv("E:\\Teaching\\Introduction to data analysis\\Up to date lecture\\Dữ liệu CSV\\dulieu2.csv",header = T)
+    attach(data)
+    View(data)
+    ```
+
+    2.Trích ra một dữ liệu có bộ phận (Segment) là "Government", đặt nó là data1 và "Midmarket" đặt tên nó là data2.
+
+```{r}
+data1 = data[Segement=="Government",]
+data2=data[Segement=="Midmarket",]
+```
+
+3.  Có bao nhiêu sản phẩm "Velo" được bán vào 7/2014
+
+    ```{r}
+    data3=data[Month.Number==7&Year==2014,]$Product
+    length(data3[data3=="Velo"])
+    ```
+
+4.  Viết một hàm để kiểm tra tháng và năm bán được nhiều nhất của một sản phẩm tại một nước.
+
+```{r}
+unique=unique(Year)
+x=c()
+a=function(y,z){
+  for(i in unique){
+    data1=unique(data[Country==y&Product==z&Year==i,]$Month.Number)
+    for(j in data1){
+     sum=sum(data[Country==y&Product==z&Year==i&Month.Number==j,]$Units.Sold)
+       x=c(x,sum)
+    }
+  }
+    for(i in unique){
+        data1=unique(data[Country==y&Product==z&Year==i,]$Month.Number)
+        for(j in data1){
+          if(sum(data[Product==z&Country==y&Month.Number==j&Year==i,]$Units.Sold)==max(x)){
+              cat("Sản phẩm",z,"bán tại nước",y,"được bán nhiều nhất vào tháng",j,"năm",i)
+            }
+        }
+      }
+}
+a("Germany","VTT")
+```
+
+Từ bộ dữ liệu Cars93 trong thư viện MASS.
+
+1)  Cho biết hãng xe nào sản xuất ra xe có mã lực trung bình cao nhất trong các hãng Xuất xứ từ Hoa kỳ và không từ Hoa Kỳ.
+
+    ```{r}
+    library(MASS)
+    data=Cars93
+     na.omit(data)
+    attach(data)
+     View(data)
+    dataUSA <- data[Origin == "USA",]
+    dataNonUSA <- data[Origin == "non-USA",]
+    hangXeHoaKi = unique(dataUSA$Manufacturer)
+    x = c()
+    for(i in hangXeHoaKi){
+      x = c(x,mean(dataUSA[dataUSA$Manufacturer == i,]$Horsepower))
+    }
+    for(i in hangXeHoaKi){
+      if(mean(dataUSA[dataUSA$Manufacturer==i,]$Horsepower) == max(x)){
+        cat("hang xe tu hoa ki co ma luc trung binh lon nhat la",i,"\n")
+      }
+    }
+
+    hangXeNonHoaKi = unique(dataNonUSA$Manufacturer)
+    y = c()
+    for(i in hangXeNonHoaKi){
+      y = c(y,mean(dataNonUSA[dataNonUSA$Manufacturer == i,]$Horsepower))
+    }
+    for(i in hangXeNonHoaKi){
+      if(mean(dataNonUSA[dataNonUSA$Manufacturer==i,]$Horsepower) == max(y)){
+        cat("hang xe khong tu hoa ki co ma luc trung binh lon nhat la", i,"\n")
+      }
+    }
+    #a = max(dataUSA$Horsepower)
+
+
+    ```
+
+2)  Hãy viết hàm cho biết hãng xe thuộc kiểu(Type) nào có dung tích bình nhiên liệu lớn nhất và đó là model nào:
+
+```{r}
+fuel = function(i){
+    type_car = dl[dl$Type==i,]
+    k = type_car$Manufacturer
+    ma = max(type_car$Fuel.tank.capacity)
+     for (j in 1:length(k)) {
+       if(type_car$Fuel.tank.capacity[j] == ma){
+         manu = toString(type_car$Manufacturer[j])
+         model = toString(type_car$Model[j])
+         cat("Hãng xe ",manu, "có dung tích bình nhiên liệu lớn nhất là ",ma," với model: ",model,"\n","\n")
+       }
+     }
+}
+t = unique(Type)
+
+for (i in t) {
+  fuel(i)
+}
+```
