@@ -1,0 +1,221 @@
+---
+title: "Tìm hiểu về data frame trong R, lập trình cơ bản trong R"
+author: "Nguyễn Thị Phương Mai"
+date: "2023-03-06"
+output: pdf_document
+---
+
+## Nhập xuất dữ liệu
+
+Trong R có rất nhiều hàm giúp chúng ta đọc dữ liệu từ file hoặc packages. Dưới đây là một số hàm phổ biến:
+
+-   Nhập trực tiếp dùng hàm c() hoặc rep().
+
+-   Đọc file .csv bằng hàm read.csv().
+
+-   Đọc file .xlsx bằng hàm read_excel() trong gói lệnh readxl.
+
+-   Đọc dữ liệu từ packages bằng hàm data().
+
+    ***Nhập dữ liệu trực tiếp***
+
+```{r}
+age <- c(50, 62, 60, 40, 48, 47, 57, 70, 48)
+insulin <- c(16.5, 10.8, 32.3, 19.3, 14.2, 11.3, 15.5, 15.8, 16.2)
+data <- data.frame(age,insulin)
+data
+View(data)
+```
+
+***Đọc dữ liệu từ file .csv***
+
+```{r}
+# CACH 1
+setwd("E:\\Teaching\\Introduction to data analysis")
+data <- read.csv("COVID19.csv", header = T)
+data
+View(data)
+#Cach 2
+second_data = read.csv("E:\\Teaching\\Introduction to data analysis\\Up to date lecture\\Dữ liệu CSV\\Affairs.csv", header = T)
+View(second_data)
+```
+
+***Nhập dữ liệu từ file excel (.xlsx):***
+
+```{r}
+setwd("E:\\Teaching\\Introduction to data analysis\\Up to date lecture\\Dữ liệu Excel")
+install.packages("readxl")
+library(readxl)
+data_1 = read_excel("Affairs.xlsx")
+View(data_1)
+```
+
+\
+
+***Đọc dữ liệu từ package:***
+
+R cho chúng ta một số dữ liệu có sẵn phục vụ mục đích thực hành trong gói MASS, lấy dữ liệu ra như sau:
+
+```{r}
+install.packages("MASS")
+library(MASS)
+data_2 = Boston
+View(data_2)
+```
+
+Ngoài ra, R có rất nhiều hàm giúp chúng ta xuất data frame ra các định dạng tệp khác nhau:
+
+***Xuất file csv,xlsx:***
+
+```{r}
+install.packages("MASS")
+library(MASS)
+setwd("E:\\Teaching\\Introduction to data analysis\\Up to date lecture")
+data_3 = Cars93
+#write.csv(data_3, "Cars93.csv")
+install.packages("writexl")
+library(writexl)
+write_xlsx(data_3,"Car93.xlsx")
+
+
+```
+
+Ngoài ra chúng ta có thể xuất file dưới định dạng .xlsx bằng lệnh "write_xlsx()" nằm trong gói "writexl".
+
+## Xử lý dữ liệu
+
+Trong suốt phần này ta sẽ sử dụng dữ liệu "mtcars" được lấy từ tạp chí Motor Trend US năm 1974. Trong data set này, biến "am" là kiểu hộp số được mã hóa với 2 giá trị 0 (số tự động), 1(số điều khiển bằng tay). Chúng ta sẽ mã hóa lại biến số am thành dạng factor với tên lần lượt là "automatic" và "manual" và gán cho một biến số mới có tên là "trans".
+
+***Sử dụng hàm factor:***
+
+```{r}
+df =mtcars 
+df
+View(df)
+#C1:
+df$am
+#C2:
+attach(df)
+am
+#C1:
+class(am)
+#C2:
+str(am)
+#C3:
+is.character(am)
+is.numeric(am)
+
+df$trans <- factor(am, levels=c(0, 1), labels=c("Automatic","Manual"))
+df$trans
+View(df)
+
+```
+
+Giả sử chúng ta muốn rời rạc hóa dữ liệu công suất của 32 dòng ô tô thành 3 nhóm: cao (H), trung bình (M), thấp (L) và gán các giá trị này vào một biến số mới có tên "power".
+
+***Sử dụng hàm cut:***
+
+```{r}
+df
+df$power <- cut(df$hp, breaks=c(-Inf, 96.5, 180, Inf), labels=c("L","M", "H"),right=T)
+df$power <- cut(df$hp, breaks=c(-Inf, 96.5, 180, Inf), labels=c("L","M", "H"),right=F)
+df$power
+View(df)
+```
+
+Trong quá trình xử lý dữ liệu, ta thường gặp 3 loại vector: vector số, factor, vector chữ.\
+Để chuyển đổi giữa 3 loại vector này, ta sử dụng các hàm sau:
+
+```{r}
+a = df$mpg
+#C1: 
+str(a)
+#C2:
+class(a)
+#C3:
+is.character(a)
+is.numeric(a)
+
+as.factor(a)
+as.character(a)
+as.numeric(a)
+```
+
+## Thao tác với dữ liệu:
+
+***Trích xuất dữ liệu***
+
+Trong quá trình xử lý dữ liệu, đôi khi ta cần lọc data frame dựa trên các điều kiện nhất định để từ đó thực hiện các tính toán cần thiết. Để lọc dữ liệu trong R, ta sử dụng dấu ngoặc vuông như sau:
+
+```{r}
+df <- mtcars
+data1 <- df[3,]
+View(data1)
+data2 <- df[,3]
+data2
+View(data2)
+data3 <- df[c(1,2,3), c(4,5,6)]
+data3
+View(data3)
+manual <- df[am ==1,]
+View(manual)
+manual2 <- df[am == 1 & wt > 2,]
+View(manual2)
+```
+
+***Ghép hai data:***
+
+```{r}
+x=c("a", "b", "c")
+y=c("d", "e", "f")
+df1 <- data.frame(x,y)
+df1
+z=c("a", "b")
+t=c("Cat", "Dog")
+df2 <- data.frame(z,t)
+df2
+# Calling merge() function
+df <- merge(df1, df2, by.x ="x",by.y="z")
+View(df)
+```
+
+## Xử lý dữ liệu bị thiếu
+
+Trong quá trình xử lý và làm sạch dữ liệu, chúng ta sẽ không thể tránh được việc một số ô dữ liệu trong data frame sẽ không có dữ liệu (NA). Nếu không xử lý, ta không thể sử dụng dữ liệu này cho các bước tiếp theo. Có một vài cách phổ biến để xử lý dữ liệu bị thiếu.
+
+-   Xóa bỏ các hàng, cột bị thiếu dữ liệu.
+
+-   Điền dữ liệu các ô bị thiếu bằng các giá trị trung bình, trung vị, . . .
+
+-   Xây dựng mô hình để điền dữ liệu bị thiếu.
+
+***Để xóa bỏ các hàng dữ liệu bị thiếu, chúng ta sử dụng hàm na.omit()***
+
+```{r}
+data <- read.csv("D:\\Github\\MAT1060\\zillow.csv")
+View(data)
+dim(data)
+data2 <- na.omit(data)
+dim(data2)
+```
+
+***Để thống kê số lượng ô bị thiếu dữ liệu ở từng cột, chúng ta sử dụng hàm is.na() và hàm colSums() .***
+
+```{r}
+data <- read.csv("D:\\Github\\MAT1060\\zillow.csv")
+dim(data)
+is.na(data)#nếu ô dữ liệu đó trống trả về true
+colSums(is.na(data))#thống kê mỗi cột có bao nhiêu ô dữ liệu trống
+```
+
+***Để thay thế dữ liệu định lượng bị thiếu bằng các giá trị khác (ví dụ: giá trị trung bình), ta sử dụng các hàm sau của R để làm việc này.***
+
+```{r}
+data <- read.csv("D:\\Github\\MAT1060\\zillow.csv")
+colSums(is.na(data))
+data
+data[is.na(data$Location),]$Location = mean(data$Location, na.rm = TRUE)# nếu dữ liệu chưa được loại bỏ dữ liệu Trống(NA) thì phép tính trên hàng/cột có chứa giá trị NA sẽ bằng NA và na.rm mặc định là FALSE khi đó hàm tính toán sẽ tính cả giá trị NA vào khi tính toán nên mean(data$Location) sẽ có kết quả là NA. Để xử lí ta để na.rm = TRUE khi này hàm tính toán sẽ bỏ qua các giá trị NA và chỉ tính toán với những giá trị hợp lệ.
+colSums(is.na(data))
+data
+
+```
