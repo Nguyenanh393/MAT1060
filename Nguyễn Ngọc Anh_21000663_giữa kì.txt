@@ -1,0 +1,126 @@
+# Sử dụng phần mềm Rstudio, hãy đọc 
+# file dữ liệu sau và đặt tên nó là data.
+data = read.csv("D:\\Github\\MAT1060\\COVID19.csv")
+attach(data)
+View(data)
+
+# Sử dụng phần mềm Rstudio, thực hiện các yêu cầu sau:
+# a) Sinh ngẫu nhiên một bộ dữ liệu điểm tổng kết 
+#    của 70 sinh viên biết rằng điểm hơn kém nhau 
+#    0.5 đơn vị (không thay thế). (1đ)
+
+
+# b) Cho hai vector x = c(28, 128,  34, 82, 84, 66) 
+# và y = c(50, 10, 17, 25, 3 , 153), so sánh tổng của
+# giá trị lớn nhất và nhỏ nhất của hai vector.(1 đ)
+x = c(28, 128,  34, 82, 84, 66)
+y = c(50, 10, 17, 25, 3 , 153)
+
+x = sort(x)
+y = sort(y)
+
+sum_min_max_x = x[1]+ x[length(x)]
+sum_min_max_y = y[1]+ y[length(y)]
+
+if (sum_min_max_x == sum_min_max_y) {
+  print('Tổng của giá trị lớn nhất và nhỏ nhất của hai vector bằng nhau')
+} else if (sum_min_max_x > sum_min_max_y) {
+  print('Tổng của giá trị lớn nhất và nhỏ nhất của X lớn hơn của Y')
+} else {
+  print('Tổng của giá trị lớn nhất và nhỏ nhất của X nhỏ hơn của Y')
+}
+
+# c) Cho vector x = c(2, 5, 7, 4, 8, 11, 9), tính giá trị bình phương của 
+# tất cả phần tử vector và sử dụng hàm để in ra số lượng những phần tử lớn 
+# hơn giá trị trung bình (của vector mới)
+
+x = c(2, 5, 7, 4, 8, 11, 9)
+x = x^2
+
+func = function(arr) {
+  average = mean(arr)
+  count = 0
+  for (i in arr) {
+    if (i > average) {
+      count = count + 1
+    }
+  }
+  cat("Số lượng những phần tử lớn hơn giá trị trung bình của vector mới là: ", count)
+}
+func(x)
+
+# Tải xuống và sử dụng dữ liệu dưới đây.
+# Trong đó:
+#  Height: chiều cao
+# Smoke: mức độ hút thuốc.
+# Sex: giới tính
+# Age: tuổi
+# W.Hnd: tay thuận
+# Exer: cường độ tập thể dục
+# Pulse: nhịp tim
+# Sử dụng phần mềm Rstudio để thực hiện các yêu cầu sau:
+#  a) Cho biết chiều cao lớn nhất của những người không hút thuốc (Never). (1đ)
+#  b) Với mức độ hút thuốc nặng (Heavy), hãy viết hàm so sánh nhóm đối tượng
+#     trên và nhỏ hơn hoặc bằng 25 tuổi. (1đ)
+#  c) Cho biết chiều cao trung bình của nữ giới thuận tay phải. (1đ)
+#  d) Ở mỗi mức độ hút thuốc, viết hàm để tính số lượng 
+#     nam giới hút thuốc, cao trên 175.0 cm và có nhịp tim 
+#     lớn hơn nhịp tim trung bình ở nữ giới thi thoảng (Some) 
+#     tập thể dục và không bao giờ hút thuốc (Never). (1đ)
+
+# đọc dữ liệu
+data = read.csv("D:\\Github\\MAT1060\\data.csv")
+attach(data)
+View(data)
+
+# Tiền xử lý
+dim(data)
+colSums(is.na(data))
+ #     X    Sex Wr.Hnd NW.Hnd  W.Hnd   Fold  Pulse   Clap   Exer  Smoke Height    M.I    Age 
+ #     0      0      0      0      0      0      0      0      0      0      0      0      0 
+# a)
+data_Never = data[data$Smoke == 'Never',]
+View(data_Never)
+
+max_Height = max(data$Height)
+cat("Chiều cao lớn nhất của những người không hút thuốc là: ", max_Height)
+# b)
+data_Heavy = data[data$Smoke == 'Heavy',]
+View(data_Heavy)
+
+count_greater_25 = 0
+count_smaller_equal_25 = 0
+for (i in data_Heavy$Age) {
+  if (i > 25) {
+    count_greater_25 = count_greater_25 + 1
+  } else {
+    count_smaller_equal_25 = count_smaller_equal_25 + 1
+  }
+}
+  #so sánh
+if (count_greater_25 == count_smaller_equal_25) {
+  print('số lượng hai đối tượng bằng nhau')
+} else if (count_greater_25 > count_smaller_equal_25) {
+  print('người lớn hơn 25 nhiều hơn')
+} else {
+  print('người nhỏ hơn bằng 25 nhiều hơn')
+}
+ #c)
+data_female_Right = data[data$Sex == 'Female' & data$W.Hnd == 'Right',]
+attach(data_female_Right)
+View(data_female_Right)
+cat("Chiều cao trung bình nữ giới thuận tay phải là: ", mean(data_female_Right$Height))
+
+ #d) 
+data_male_smoke_up175 = data[data$Sex =='Male' & data$Smoke != 'Never' & data$Height > 175,]
+View(data_male_smoke)
+
+freq = unique(data_male_smoke$Smoke)
+freq
+
+raceFemale = mean(data[data$Sex =="Female" & data$Exer == "Some" & data$Smoke == "Never",]$Pulse)
+for (i in freq) {
+  count = 0
+  
+}
+  
