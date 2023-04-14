@@ -1,0 +1,66 @@
+---
+title: "bài tập"
+output: html_document
+date: "2023-03-30"
+---
+
+Dữ liệu dưới đây (dulieu2.csv) là doanh số bán hàng của một công ty. Thực hiện các thao tác sau với phần mềm R.
+
+1.  Nhập dữ liệu vào R và đặt tên nó là data.
+
+```{r}
+data = read.csv("D:\\Github\\MAT1060\\dulieu2.csv")
+View(data)
+```
+
+2.  Trích ra một dữ liệu có bộ phận (Segment) là "Government", đặt nó là data1 và "Midmar- ket" đặt tên nó là data2.
+
+```{r}
+data1 = data[data$Segment == "Government",]
+data2 = data[data$Segment == "Midmar- ket",]
+```
+
+3.  Có bao nhiêu sản phẩm "Velo" được bán vào 7/2014.
+
+```{r}
+data_Velo_7 = data[data$Product=="Velo"&data$Month.Number == 7&data$Year==2014,]
+View(data_Velo_7)
+```
+
+4.  Viết một hàm để kiểm tra tháng và năm bán được nhiều nhất của một sản phẩm tại một nước.
+
+```{r}
+data_date_month_max = function(product, country) {
+  data3 = data[data$Country==country&data$Product==product]
+  max_month = max(data39[""])
+  
+}
+```
+
+Từ bộ dữ liệu Car93 trong thư viện MASS.
+
+1)  Cho biết hãng xe nào sản xuất ra xe có mã lực trung bình cao nhất trong các hãng Xuất xứ từ Hoa kỳ và không từ Hoa Kỳ.
+
+```{r}
+library(MASS)
+data =Cars93
+View(data)
+colSums(is.na(data))
+max_mean_Origin = function(origin) {
+  data_origin = data[data$Origin == origin,]
+  val_Hp = c()
+  manu = unique(data_origin$Manufacturer)
+  for (m in manu) {
+    val_Hp = c(val_Hp,mean(data_origin[data_origin$Manufacturer == m,]$Horsepower))
+  }
+  matrix()
+}
+max_mean_Origin("USA")
+```
+
+2)  Hãy viết hàm cho biết hãng xe thuộc kiểu(Type) nào có dung tích bình nhiên liệu lớn nhất và đó là model nào:
+
+```{r}
+dataCy = data[data$Fuel.tank.capacity == max(data$Fuel.tank.capacity),]
+View(dataCy)
+```
